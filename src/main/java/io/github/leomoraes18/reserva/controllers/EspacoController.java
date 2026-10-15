@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,7 +45,12 @@ public class EspacoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EspacoResponse> buscarPorId(@PathVariable UUID id){
+    public ResponseEntity<EspacoResponse> buscarPorId(@PathVariable UUID id) {
         return ResponseEntity.ok(espacoService.buscarPorId(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EspacoResponse> atualizar(@PathVariable UUID id, @Valid @RequestBody EspacoRequest request) {
+        return ResponseEntity.ok(espacoService.atualizar(id, request));
     }
 }

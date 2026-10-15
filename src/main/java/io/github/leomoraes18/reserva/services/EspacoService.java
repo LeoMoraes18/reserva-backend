@@ -34,8 +34,21 @@ public class EspacoService {
 
     @Transactional(readOnly = true)
     public EspacoResponse buscarPorId(UUID id) {
+        return EspacoResponse.from(buscarEntidade(id));
+    }
+
+    private Espaco buscarEntidade(UUID id) {
         Espaco espaco = espacoRepository.findById(id).orElseThrow(() -> new
                 RecursoNaoEncontradoException("Espaço não encontrado com id " + id));
+        return espaco;
+    }
+
+    @Transactional
+    public EspacoResponse atualizar(UUID id, EspacoRequest request) {
+        Espaco espaco = buscarEntidade(id);
+        espaco.setNome(request.nome());
+        espaco.setDescricao(request.descricao());
+        espaco.setCapacidade(request.capacidade());
         return EspacoResponse.from(espaco);
     }
 }
