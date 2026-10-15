@@ -50,4 +50,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problem.setTitle("Erro interno");
         return problem;
     }
+
+    @ExceptionHandler(RecursoNaoEncontradoException.class)
+    public ProblemDetail handleRecursoNaoEncontrado(RecursoNaoEncontradoException ex){
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+        problem.setTitle("Recurso não encontrado");
+        return problem;
+    }
 }

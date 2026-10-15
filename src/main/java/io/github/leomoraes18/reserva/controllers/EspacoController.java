@@ -6,6 +6,7 @@ import io.github.leomoraes18.reserva.services.EspacoService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/espacos")
@@ -39,5 +41,10 @@ public class EspacoController {
     @GetMapping
     public ResponseEntity<List<EspacoResponse>> listar() {
         return ResponseEntity.ok(espacoService.listar());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EspacoResponse> buscarPorId(@PathVariable UUID id){
+        return ResponseEntity.ok(espacoService.buscarPorId(id));
     }
 }
