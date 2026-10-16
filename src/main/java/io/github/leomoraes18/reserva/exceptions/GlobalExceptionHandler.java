@@ -57,4 +57,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problem.setTitle("Recurso não encontrado");
         return problem;
     }
+
+    @ExceptionHandler(RegraNegocioException.class)
+    public ProblemDetail handleRegraNegocio(RegraNegocioException ex) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.UNPROCESSABLE_CONTENT, ex.getMessage());
+        problem.setTitle("Regra de negócio violada");
+        return problem;
+    }
 }
