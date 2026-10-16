@@ -1,5 +1,6 @@
 package io.github.leomoraes18.reserva.entities;
 
+import io.github.leomoraes18.reserva.exceptions.RegraNegocioException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -45,6 +46,10 @@ public class Reserva {
     protected Reserva() {}
 
     public Reserva(Usuario usuario, Espaco espaco, LocalDateTime inicio, LocalDateTime fim) {
+        if (!fim.isAfter(inicio)) {
+            throw new RegraNegocioException("O fim da reserva deve ser depois do início.");
+        }
+
         this.usuario = usuario;
         this.espaco = espaco;
         this.inicio = inicio;
@@ -75,7 +80,16 @@ public class Reserva {
         return status;
     }
 
-    public void cancelar() {
+    public void cancelar(LocalDateTime agora) {
+        if (status.equals(StatusReserva.CANCELADA)) {
+            throw new RegraNegocioException("Já está cancelada");
+        }
+
+        if (!agora.isBefore(inicio)) {
+            throw new RegraNegocioException(
+                    "Não é possível cancelar uma reserva que já começou.");
+        }
+
         this.status = StatusReserva.CANCELADA;
     }
 
