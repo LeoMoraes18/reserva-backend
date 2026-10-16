@@ -29,7 +29,7 @@ public class EspacoService {
 
     @Transactional(readOnly = true)
     public List<EspacoResponse> listar() {
-        return espacoRepository.findAll().stream().map(EspacoResponse::from).toList();
+        return espacoRepository.findByAtivoTrue().stream().map(EspacoResponse::from).toList();
     }
 
     @Transactional(readOnly = true)
@@ -50,5 +50,11 @@ public class EspacoService {
         espaco.setDescricao(request.descricao());
         espaco.setCapacidade(request.capacidade());
         return EspacoResponse.from(espaco);
+    }
+
+    @Transactional
+    public void desativar(UUID id) {
+        Espaco espaco = buscarEntidade(id);
+        espaco.setAtivo(false);
     }
 }

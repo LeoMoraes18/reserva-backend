@@ -5,6 +5,7 @@ import io.github.leomoraes18.reserva.dtos.EspacoResponse;
 import io.github.leomoraes18.reserva.services.EspacoService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,5 +53,11 @@ public class EspacoController {
     @PutMapping("/{id}")
     public ResponseEntity<EspacoResponse> atualizar(@PathVariable UUID id, @Valid @RequestBody EspacoRequest request) {
         return ResponseEntity.ok(espacoService.atualizar(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> desativar(@PathVariable UUID id) {
+        espacoService.desativar(id);
+        return ResponseEntity.noContent().build();
     }
 }
